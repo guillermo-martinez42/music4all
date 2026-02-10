@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Music4All"
+        tools:targetApi="35">
+
+        <!-- Main Settings / Onboarding Activity -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Music4All">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Transparent Trampoline Activity — Link Resolver -->
+        <activity
+            android:name=".ui.LinkResolverActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:excludeFromRecents="true"
+            android:taskAffinity="">
+
+            <!-- Spotify -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="open.spotify.com" />
+            </intent-filter>
+
+            <!-- Apple Music -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="music.apple.com" />
+            </intent-filter>
+
+            <!-- Tidal -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="tidal.com" />
+                <data android:scheme="https" android:host="listen.tidal.com" />
+            </intent-filter>
+
+            <!-- YouTube / YouTube Music -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="youtu.be" />
+                <data android:scheme="https" android:host="youtube.com" android:pathPrefix="/watch" />
+                <data android:scheme="https" android:host="www.youtube.com" android:pathPrefix="/watch" />
+                <data android:scheme="https" android:host="music.youtube.com" />
+                <data android:scheme="https" android:host="youtube.com" android:pathPrefix="/playlist" />
+                <data android:scheme="https" android:host="www.youtube.com" android:pathPrefix="/playlist" />
+                <data android:scheme="https" android:host="youtube.com" android:pathPrefix="/channel" />
+                <data android:scheme="https" android:host="www.youtube.com" android:pathPrefix="/channel" />
+            </intent-filter>
+
+            <!-- Deezer -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="www.deezer.com" />
+                <data android:scheme="https" android:host="deezer.page.link" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
