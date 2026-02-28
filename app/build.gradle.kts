@@ -71,4 +71,8 @@ dependencies {
 
     // Chrome Custom Tabs
     implementation(libs.androidx.browser)
+
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
 }

@@ -42,8 +42,8 @@ class LinkResolverActivity : Activity() {
         val incomingUrl = intent?.data?.toString()
 
         // ── Security: validate the incoming URL ──────────────────────────
-        if (!UrlValidator.isAllowedMusicUrl(incomingUrl)) {
-            Log.w(TAG, "Blocked invalid/untrusted URL: $incomingUrl")
+        if (incomingUrl == null || !UrlValidator.isAllowedMusicUrl(incomingUrl)) {
+            Log.w(TAG, "Blocked invalid or missing URL: $incomingUrl")
             finish()
             return
         }
@@ -52,11 +52,12 @@ class LinkResolverActivity : Activity() {
 
         scope.launch {
             try {
-                resolveAndOpen(incomingUrl!!)
+                resolveAndOpen(incomingUrl)
             } catch (e: Exception) {
                 Log.e(TAG, "Resolution failed, falling back to Custom Tab", e)
-                openInCustomTab(incomingUrl!!)
+                openInCustomTab(incomingUrl)
             } finally {
+                // Ensure the trampoline activity always finishes
                 finish()
             }
         }
@@ -85,11 +86,15 @@ class LinkResolverActivity : Activity() {
             ?.get(preferredService.odesliKey)
             ?.url
 
-        if (targetUrl != null) {
+        if (targetUrl != null && UrlValidator.isAllowedTargetUrl(targetUrl)) {
             Log.d(TAG, "Resolved to: $targetUrl")
             launchUrl(targetUrl)
         } else {
-            Log.d(TAG, "No ${preferredService.displayName} link found, falling back to Custom Tab")
+            if (targetUrl != null) {
+                Log.w(TAG, "Resolved URL was blocked by validator: $targetUrl")
+            } else {
+                Log.d(TAG, "No ${preferredService.displayName} link found")
+            }
             openInCustomTab(originalUrl)
         }
     }
